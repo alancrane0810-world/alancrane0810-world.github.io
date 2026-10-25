@@ -329,3 +329,25 @@ section { padding: 5rem 0; }
         scroll-behavior: auto !important;
     }
 }
+
+/* ================= КАРТИНКИ ================= */
+.portrait-img {
+    border-radius: 5px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    object-fit: cover;
+}
+
+.cover-img {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.book-card:hover .cover-img {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(180, 154, 98, 0.2);
+}
