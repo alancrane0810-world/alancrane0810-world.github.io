@@ -63,6 +63,7 @@ section { padding: 5rem 0; }
     letter-spacing: 0.05em;
     cursor: pointer;
     transition: all 0.3s ease;
+    text-align: center;
 }
 
 .btn:hover {
@@ -78,6 +79,14 @@ section { padding: 5rem 0; }
 .btn-outline:hover {
     background-color: var(--gold);
     color: var(--coal);
+}
+
+/* Блок с кнопками покупки */
+.buy-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
 }
 
 /* ================= ШАПКА И МЕНЮ ================= */
@@ -131,7 +140,6 @@ section { padding: 5rem 0; }
     background-color: var(--gold);
 }
 
-/* Бургер (скрыт на десктопе) */
 .menu-toggle {
     display: none;
     background: none;
@@ -154,7 +162,7 @@ section { padding: 5rem 0; }
     min-height: 100vh;
     display: flex;
     align-items: center;
-    padding-top: 70px; /* под шапку */
+    padding-top: 70px;
     background: radial-gradient(circle at center, var(--graphite) 0%, var(--coal) 70%);
 }
 
@@ -273,6 +281,111 @@ section { padding: 5rem 0; }
     margin-top: 1rem;
 }
 
+/* ================= КАРТИНКИ ================= */
+.portrait-img {
+    border-radius: 5px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    object-fit: cover;
+}
+
+.cover-img {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.book-card:hover .cover-img {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(180, 154, 98, 0.2);
+}
+
+/* ================= ВИДЕОПРОМО ================= */
+.video-promo-container {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(180, 154, 98, 0.2);
+}
+
+.video-promo-container h2 {
+    margin-bottom: 1.5rem;
+}
+
+/* Контейнер для видео с кнопкой Play */
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    background-color: #000;
+}
+
+.video-wrapper video {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+
+/* Сама кнопка Play */
+.play-button {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    background-color: rgba(180, 154, 98, 0.2);
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(4px);
+    z-index: 10;
+}
+
+.play-button:hover {
+    background-color: var(--gold);
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+.play-button svg {
+    width: 40px;
+    height: 40px;
+    color: var(--text-light);
+    margin-left: 5px; /* Чтобы треугольник визуально был по центру */
+    transition: color 0.3s ease;
+}
+
+.play-button:hover svg {
+    color: var(--coal);
+}
+
+.video-caption {
+    text-align: center;
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    color: var(--text-light);
+    margin-top: 1rem;
+    font-style: italic;
+}
+
+.video-music {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 0.3rem;
+}
+
 /* ================= АДАПТИВНОСТЬ ================= */
 @media (max-width: 768px) {
     h1 { font-size: 2.5rem; }
@@ -317,6 +430,25 @@ section { padding: 5rem 0; }
         width: 250px;
         height: 320px;
     }
+
+    .video-wrapper {
+        max-width: 100%;
+        border-radius: 0;
+    }
+
+    .play-button {
+        width: 60px;
+        height: 60px;
+    }
+
+    .play-button svg {
+        width: 30px;
+        height: 30px;
+    }
+
+    .buy-buttons {
+        flex-direction: column;
+    }
 }
 
 /* ================= ДОСТУПНОСТЬ ================= */
@@ -328,26 +460,4 @@ section { padding: 5rem 0; }
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
     }
-}
-
-/* ================= КАРТИНКИ ================= */
-.portrait-img {
-    border-radius: 5px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    object-fit: cover;
-}
-
-.cover-img {
-    width: 100%;
-    aspect-ratio: 2 / 3;
-    object-fit: cover;
-    border-radius: 5px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
-    margin-bottom: 1rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.book-card:hover .cover-img {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(180, 154, 98, 0.2);
 }

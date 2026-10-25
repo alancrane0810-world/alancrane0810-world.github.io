@@ -41,9 +41,34 @@
                     <p>Что, если любовь — это не выход, а зеркало?</p>
                     <p>Эта история — путешествие двух сломленных людей сквозь тишину, страх и запреты. Он — пациент, ищущий спасения. Она — психотерапевт, прячущаяся за стенами профессии. Но чувства не спрашивают разрешения. Это книга о границах, которые рушатся, когда начинается настоящее. Первая работа Алана Крейна.</p>
                     
-                    <a href="https://ridero.ru/books/vniz_po_relsam/" target="_blank" rel="noopener noreferrer" class="btn" style="margin-top: 2rem;">Купить на Rideró</a>
+                    <!-- БЛОК КНОПОК ПОКУПКИ -->
+                    <div class="buy-buttons">
+                        <a href="https://ridero.ru/books/vniz_po_relsam/" target="_blank" rel="noopener noreferrer" class="btn">Купить на Rideró</a>
+                        <!-- Скопируй строчку ниже и вставь ссылку на Ozon, Wildberries или Литрес, когда они появятся -->
+                        <!-- <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Купить на Ozon</a> -->
+                    </div>
                 </div>
             </div>
+
+            <!-- ================= БЛОК ВИДЕОПРОМО ================= -->
+            <div class="video-promo-container">
+                <h2>Видеопромо</h2>
+                
+                <div class="video-wrapper">
+                    <video id="video-vniz" controls preload="metadata" playsinline poster="images/poster-vniz.jpg">
+                        <source src="videos/vniz-promo.mp4" type="video/mp4">
+                        Ваш браузер не поддерживает встроенное видео.
+                    </video>
+                    <!-- Кнопка Play поверх обложки -->
+                    <div class="play-button" onclick="document.getElementById('video-vniz').play(); this.style.display='none';">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 5V19L19 12L8 5Z" fill="currentColor"/></svg>
+                    </div>
+                </div>
+                
+                <p class="video-caption">Промо к книге «Вниз по рельсам»</p>
+                <p class="video-music">Музыка: [Имя автора]</p>
+            </div>
+            <!-- ================= КОНЕЦ БЛОКА ВИДЕОПРОМО ================= -->
         </section>
     </main>
 

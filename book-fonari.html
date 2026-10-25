@@ -40,9 +40,34 @@
                     <h2>Аннотация</h2>
                     <p>«Пока горят фонари» — поэтическое путешествие через любовь и утраты, надежду и разочарование, поиск смысла и попытки не потерять себя среди жизненных бурь. Это история о людях, которые остаются в памяти, о чувствах, которые меняют нас навсегда, и о свете, который помогает идти дальше даже в самые тёмные ночи.</p>
                     
-                    <a href="https://ridero.ru/books/poka_goryat_fonari/" target="_blank" rel="noopener noreferrer" class="btn" style="margin-top: 2rem;">Купить на Rideró</a>
+                    <!-- БЛОК КНОПОК ПОКУПКИ -->
+                    <div class="buy-buttons">
+                        <a href="https://ridero.ru/books/poka_goryat_fonari/" target="_blank" rel="noopener noreferrer" class="btn">Купить на Rideró</a>
+                        <!-- Скопируй строчку ниже и вставь ссылку на Ozon, Wildberries или Литрес, когда они появятся -->
+                        <!-- <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Купить на Ozon</a> -->
+                    </div>
                 </div>
             </div>
+
+            <!-- ================= БЛОК ВИДЕОПРОМО ================= -->
+            <div class="video-promo-container">
+                <h2>Видеопромо</h2>
+                
+                <div class="video-wrapper">
+                    <video id="video-fonari" controls preload="metadata" playsinline poster="images/poster-fonari.jpg">
+                        <source src="videos/fonari-promo.mp4" type="video/mp4">
+                        Ваш браузер не поддерживает встроенное видео.
+                    </video>
+                    <!-- Кнопка Play поверх обложки -->
+                    <div class="play-button" onclick="document.getElementById('video-fonari').play(); this.style.display='none';">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 5V19L19 12L8 5Z" fill="currentColor"/></svg>
+                    </div>
+                </div>
+                
+                <p class="video-caption">Промо к книге «Пока горят фонари»</p>
+                <p class="video-music">Музыка: [Имя автора]</p>
+            </div>
+            <!-- ================= КОНЕЦ БЛОКА ВИДЕОПРОМО ================= -->
         </section>
     </main>
 
