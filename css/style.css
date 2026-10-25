@@ -16,7 +16,6 @@ html { scroll-behavior: smooth; }
 
 body {
     background-color: var(--coal);
-    /* Легкая текстура шума (не тяжелая) */
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
     color: var(--text-light);
     font-family: var(--font-sans);
@@ -53,7 +52,7 @@ p:last-child { margin-bottom: 0; }
     padding: 0 20px;
 }
 
-section { padding: 5rem 0; } /* Убрана анимация рывков */
+section { padding: 5rem 0; }
 
 /* ================= КНОПКИ ================= */
 .btn {
@@ -229,10 +228,9 @@ section { padding: 5rem 0; } /* Убрана анимация рывков */
     object-fit: cover;
 }
 
-/* Жесткая фиксация пропорций для всех обложек */
 .cover-img {
     width: 100%;
-    max-width: 300px; /* Ограничиваем максимальную ширину */
+    max-width: 300px;
     aspect-ratio: 2 / 3;
     object-fit: cover;
     border-radius: 5px;
@@ -246,7 +244,6 @@ section { padding: 5rem 0; } /* Убрана анимация рывков */
     box-shadow: 0 10px 25px rgba(180, 154, 98, 0.2);
 }
 
-/* Контейнер для обложки на странице книги */
 .book-cover-wrapper {
     flex-shrink: 0;
     width: 300px;
@@ -326,7 +323,6 @@ section { padding: 5rem 0; } /* Убрана анимация рывков */
     margin-top: 1rem;
 }
 
-/* ================= КНОПКА ДОНАТА (ПОДВАЛ) ================= */
 .footer-support-link {
     display: inline-flex;
     align-items: center;
@@ -347,30 +343,36 @@ section { padding: 5rem 0; } /* Убрана анимация рывков */
     color: var(--text-light);
 }
 
-/* ================= КАРТОЧКА ДОНАТА (ОБ АВТОРЕ) ================= */
+/* ================= НОВАЯ КОМПАКТНАЯ КАРТОЧКА ДОНАТА ================= */
 .support-card {
     background: var(--graphite);
-    border: 1px solid rgba(180, 154, 98, 0.2);
+    border: 1px solid rgba(180, 154, 98, 0.15); /* Тонкая рамка */
     border-radius: 8px;
-    padding: 2rem; /* Сделал чуть компактнее */
-    margin-top: 3rem;
+    padding: 1.5rem; /* Уменьшили отступы внутри */
+    margin-top: 2rem;
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
+
 .support-card h3 { 
     color: var(--gold); 
     font-family: var(--font-serif); 
-    font-size: 1.6rem; 
-    margin-bottom: 0.8rem; 
+    font-size: 1.3rem; /* Уменьшили шрифт */
+    margin-bottom: 0.5rem; 
 }
+
 .support-card p { 
     color: var(--text-muted); 
-    margin-bottom: 1.5rem; 
-    font-size: 0.95rem;
-    line-height: 1.6;
-    max-width: 500px; /* Ограничил ширину текста */
-    margin-left: auto; 
-    margin-right: auto; 
+    margin-bottom: 1.2rem; 
+    font-size: 0.85rem; /* Уменьшили шрифт */
+    line-height: 1.5;
+}
+
+/* Кнопка в карточке делаем компактной */
+.support-card .btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.8rem;
+    width: 100%; /* Кнопка на всю ширину карточки */
 }
 
 /* ================= ВИДЕОПРОМО ================= */
