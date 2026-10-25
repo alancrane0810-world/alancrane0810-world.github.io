@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://alancrane0810-world.github.io/sitemap.xml
