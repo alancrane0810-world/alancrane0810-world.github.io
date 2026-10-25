@@ -14,9 +14,9 @@
 
 html { scroll-behavior: smooth; }
 
-/* 1. Легкая текстура шума на фоне */
 body {
     background-color: var(--coal);
+    /* Текстура шума (не тяжелая) */
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
     color: var(--text-light);
     font-family: var(--font-sans);
@@ -36,7 +36,7 @@ h1, h2, h3, h4 {
     font-weight: 600;
     line-height: 1.2;
     margin-bottom: 1rem;
-    letter-spacing: 0.02em; /* Разрядка для дорогого вида */
+    letter-spacing: 0.02em;
 }
 
 h1 { font-size: 3.5rem; }
@@ -53,16 +53,7 @@ p:last-child { margin-bottom: 0; }
     padding: 0 20px;
 }
 
-section { 
-    padding: 5rem 0; 
-    animation: fadeInUp 0.8s ease-out forwards; /* Плавное появление */
-}
-
-/* ================= АНИМАЦИИ ================= */
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+section { padding: 5rem 0; } /* Убрали анимацию рывков */
 
 /* ================= КНОПКИ ================= */
 .btn {
@@ -231,44 +222,34 @@ section {
 
 .hero-image { flex: 1; display: flex; justify-content: center; }
 
-/* ================= ЗАГЛУШКИ И КАРТИНКИ ================= */
-.image-placeholder {
-    background-color: var(--graphite);
-    border: 1px dashed var(--text-muted);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    padding: 1rem;
-}
-
-.portrait-placeholder {
-    width: 350px;
-    height: 450px;
-    border-radius: 5px;
-}
-
+/* ================= КАРТИНКИ (ИСПРАВЛЕНЫ) ================= */
 .portrait-img {
     border-radius: 5px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     object-fit: cover;
 }
 
+/* Теперь обложки не обрезаются, а показываются целиком */
 .cover-img {
     width: 100%;
-    aspect-ratio: 2 / 3;
-    object-fit: cover;
+    height: auto;
+    object-fit: contain; /* Показывает картинку целиком */
     border-radius: 5px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
     margin-bottom: 1rem;
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .book-card:hover .cover-img {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 35px rgba(180, 154, 98, 0.2);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(180, 154, 98, 0.2);
+}
+
+/* Исправление для страницы книги, чтобы обложка не растягивалась */
+.book-cover-wrapper {
+    flex-shrink: 0;
+    width: 300px;
+    max-width: 100%;
 }
 
 /* ================= СЕТКА КНИГ ================= */
