@@ -499,3 +499,13 @@ section { padding: 5rem 0; }
         scroll-behavior: auto !important;
     }
 }
+
+/* ================= ОТСТУПЫ ДЛЯ ТЕКСТА ================= */
+p {
+    margin-bottom: 1.2rem;
+}
+
+/* Убираем лишний отступ у последнего абзаца в блоке */
+p:last-child {
+    margin-bottom: 0;
+}
