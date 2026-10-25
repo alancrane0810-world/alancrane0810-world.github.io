@@ -496,3 +496,10 @@ section { padding: 5rem 0; }
         scroll-behavior: auto !important;
     }
 }
+
+/* ================= ВИДЖЕТ RIDERO ================= */
+@media (max-width: 768px) {
+    .ridero-widget {
+        height: 500px !important; /* Уменьшаем высоту для телефонов */
+    }
+}
