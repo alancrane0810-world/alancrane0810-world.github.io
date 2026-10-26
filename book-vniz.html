@@ -45,7 +45,7 @@
     </header>
 
     <main>
-        <section class="container" style="padding-top: 120px; max-width: 800px;">
+        <section class="container" style="padding-top: 120px; max-width: 800px; padding-bottom: 5rem;">
             <div style="margin-bottom: 1.5rem;">
                 <a href="books.html" style="color: var(--text-muted); font-family: var(--font-sans); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">
                     ← Все книги
@@ -65,6 +65,11 @@
                     <p>Что, если любовь — это не выход, а зеркало?</p>
                     <p>Эта история — путешествие двух сломленных людей сквозь тишину, страх и запреты. Он — пациент, ищущий спасения. Она — психотерапевт, прячущаяся за стенами профессии. Но чувства не спрашивают разрешения. Это книга о границах, которые рушатся, когда начинается настоящее. Первая работа Алана Крейна.</p>
                     
+                    <!-- КНОПКА ФРАГМЕНТА (ОТКРЫВАЕТ ЧИТАЛКУ) -->
+                    <div style="margin-top: 1.5rem; margin-bottom: 2rem;">
+                        <button onclick="document.getElementById('pdf-reader').style.display='block';" class="btn">Читать фрагмент</button>
+                    </div>
+
                     <div class="store-groups">
                         <div class="store-group">
                             <h3>Купить</h3>
@@ -87,6 +92,18 @@
                     </div>
                 </div>
             </div>
+
+            <!-- ЧИТАЛКА PDF (СКРЫТА ПО УМОЛЧАНИЮ) -->
+            <div id="pdf-reader" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(13, 13, 15, 0.98); z-index: 9999; padding: 2rem; overflow-y: auto;">
+                <div style="max-width: 800px; margin: 0 auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3 style="color: var(--gold); font-family: var(--font-serif); font-size: 1.5rem;">Фрагмент: Вниз по рельсам</h3>
+                        <button onclick="document.getElementById('pdf-reader').style.display='none';" style="background: none; border: none; color: var(--text-light); font-size: 2rem; cursor: pointer;">&times;</button>
+                    </div>
+                    <iframe src="fragment-vniz.pdf" width="100%" height="800px" style="border: 1px solid rgba(180, 154, 98, 0.2); border-radius: 5px;"></iframe>
+                </div>
+            </div>
+            <!-- КОНЕЦ ЧИТАЛКИ -->
 
             <div class="video-promo-container">
                 <h2>Видеопромо</h2>
