@@ -45,7 +45,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 1.5rem;
+            gap: 2rem;
             width: 100%;
             margin-bottom: 1rem;
         }
@@ -55,16 +55,20 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.6);
             border-radius: 4px;
             overflow: hidden;
-            max-width: 100%;
-            /* Чтобы не было скачков при загрузке */
-            min-width: 300px; 
-            min-height: 400px;
+            /* ЖЕСТКОЕ ОГРАНИЧЕНИЕ ШИРИНЫ И ВЫСОТЫ */
+            width: 100%;
+            max-width: 450px; 
+            max-height: 550px; 
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Страница прижимается к верху */
         }
 
         #pdf-canvas {
             display: block;
-            max-width: 100%;
+            width: 100%;
             height: auto;
+            object-fit: contain; /* Сохраняет пропорции */
         }
 
         /* Красивые стрелки */
@@ -119,6 +123,11 @@
             }
             .pdf-widget-container {
                 padding: 1rem;
+            }
+            /* Уменьшаем высоту для телефонов */
+            .pdf-canvas-container {
+                max-width: 100%;
+                max-height: 400px; 
             }
         }
     </style>
@@ -272,20 +281,24 @@
             canvas = document.getElementById('pdf-canvas'),
             ctx = canvas.getContext('2d');
 
-        // Функция для рендера страницы
         function renderPage(num) {
             pageRendering = true;
             
-            // Обновляем состояние кнопок
             document.getElementById('prev-page').disabled = (num <= 1);
             document.getElementById('next-page').disabled = (num >= pdfDoc.numPages);
             document.getElementById('page-num').textContent = num;
 
             pdfDoc.getPage(num).then(function(page) {
-                // Подгоняем масштаб под ширину контейнера
                 let containerWidth = canvas.parentElement.clientWidth;
+                let containerHeight = canvas.parentElement.clientHeight;
+
                 let viewport = page.getViewport({scale: 1});
-                let scale = containerWidth / viewport.width;
+                
+                // Считаем масштаб, чтобы страница влезла и по ширине, и по высоте
+                let scaleWidth = containerWidth / viewport.width;
+                let scaleHeight = containerHeight / viewport.height;
+                let scale = Math.min(scaleWidth, scaleHeight); // Берем меньший масштаб
+
                 let scaledViewport = page.getViewport({scale: scale});
 
                 canvas.height = scaledViewport.height;
@@ -316,7 +329,6 @@
             }
         }
 
-        // Кнопки
         document.getElementById('prev-page').addEventListener('click', () => {
             if (pageNum <= 1) return;
             pageNum--;
