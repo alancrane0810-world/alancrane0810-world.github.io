@@ -55,8 +55,9 @@
     </header>
 
     <main>
-        <section class="hero">
-            <div class="container hero-inner">
+        <!-- ПЕРВЫЙ ЭКРАН С ПЛАВНЫМ ПЕРЕХОДОМ -->
+        <section class="hero" style="position: relative; margin-bottom: 0; padding-bottom: 0;">
+            <div class="container hero-inner" style="padding-bottom: 5rem;">
                 <div class="hero-text">
                     <h1>Алан Крейн</h1>
                     <p class="slogan">Слова, в которых остаётся часть души.</p>
@@ -65,13 +66,19 @@
                     <img src="images/portrait.jpg" alt="Портрет писателя Алана Крейна" class="portrait-img">
                 </div>
             </div>
+            <!-- ПЛАВНЫЙ ПЕРЕХОД (Градиент от прозрачного к темному) -->
+            <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 200px; background: linear-gradient(to bottom, transparent, var(--coal)); pointer-events: none;"></div>
         </section>
 
-        <section class="philosophy container" style="padding-bottom: 4rem;">
-            <h2>Философия</h2>
-            <p style="font-size: 1.1rem; margin-bottom: 1rem;">Литература для меня — это не просто история, рассказанная словами. Это попытка заглянуть туда, куда человек редко решается посмотреть сам: в глубину собственных мыслей, в потаённые уголки души, в воспоминания, страхи и желания, которые порой невозможно выразить вслух.</p>
-            <p style="font-size: 1.1rem; margin-bottom: 1rem;">Меня привлекает человек на границе внутреннего выбора — там, где любовь сталкивается с болью, вера с сомнением, а надежда с отчаянием. Ведь за каждым решением скрывается история, за каждым молчанием — невысказанные слова, а за каждой душой — целая вселенная.</p>
-            <p style="font-size: 1.1rem;">Я верю, что литература не обязана давать ответы на все вопросы. Иногда её истинная сила заключается в том, чтобы оставить читателя наедине с вопросом. И если мои слова однажды заставят кого-то остановиться, почувствовать, вспомнить или увидеть мир немного иначе, значит, они были написаны не напрасно.</p>
+        <!-- ФИЛОСОФИЯ (С ЗОЛОТОЙ ЛИНИЕЙ) -->
+        <section class="philosophy container" style="padding-top: 2rem; padding-bottom: 4rem;">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <span style="display: inline-block; width: 60px; height: 1px; background: var(--gold); opacity: 0.5;"></span>
+            </div>
+            <h2 style="text-align: center; margin-bottom: 2rem;">Философия</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 1.5rem; text-align: center; max-width: 800px; margin-left: auto; margin-right: auto;">Литература для меня — это не просто история, рассказанная словами. Это попытка заглянуть туда, куда человек редко решается посмотреть сам: в глубину собственных мыслей, в потаённые уголки души, в воспоминания, страхи и желания, которые порой невозможно выразить вслух.</p>
+            <p style="font-size: 1.1rem; margin-bottom: 1.5rem; text-align: center; max-width: 800px; margin-left: auto; margin-right: auto;">Меня привлекает человек на границе внутреннего выбора — там, где любовь сталкивается с болью, вера с сомнением, а надежда с отчаянием. Ведь за каждым решением скрывается история, за каждым молчанием — невысказанные слова, а за каждой душой — целая вселенная.</p>
+            <p style="font-size: 1.1rem; text-align: center; max-width: 800px; margin-left: auto; margin-right: auto;">Я верю, что литература не обязана давать ответы на все вопросы. Иногда её истинная сила заключается в том, чтобы оставить читателя наедине с вопросом. И если мои слова однажды заставят кого-то остановиться, почувствовать, вспомнить или увидеть мир немного иначе, значит, они были написаны не напрасно.</p>
         </section>
 
         <!-- РАЗДЕЛИТЕЛЬ -->
@@ -79,7 +86,7 @@
             <hr style="border: none; height: 1px; background: linear-gradient(90deg, transparent, rgba(180, 154, 98, 0.4), transparent); margin: 0 auto; width: 80%;">
         </div>
 
-        <!-- ОБ АВТОРЕ (С БОЛЬШИМ ОТСТУПОМ СНИЗУ) -->
+        <!-- ОБ АВТОРЕ -->
         <section class="about-brief container" style="padding-top: 4rem; padding-bottom: 5rem;">
             <h2>Об авторе</h2>
             <p>Алан Крейн — писатель из Кара-Балты, Кыргызстан, работающий в направлениях психологической прозы, поэзии и философского фэнтези.</p>
