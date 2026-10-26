@@ -29,6 +29,11 @@ img { max-width: 100%; display: block; }
 a { color: var(--gold); text-decoration: none; transition: color 0.3s; }
 a:hover, a:focus { color: var(--text-light); outline: none; }
 
+/* ФАВИКОН (принудительно круглая иконка, если картинка квадратная) */
+link[rel="icon"] {
+    border-radius: 50% !important;
+}
+
 /* ================= ТИПОГРАФИКА ================= */
 h1, h2, h3, h4 {
     font-family: var(--font-serif);
@@ -317,10 +322,10 @@ section { padding: 5rem 0; }
 }
 .footer-nav a:hover, .footer-contacts a:hover { color: var(--gold); }
 
-/* ================= СТИЛИ ДЛЯ ТЕКСТА ВНИЗУ (КОПИРАЙТ И МЕТРИКА) ================= */
+/* СТИЛИ ДЛЯ ТЕКСТА ВНИЗУ (КОПИРАЙТ И МЕТРИКА) */
 .copyright, .metrika-notice {
-    color: var(--text-muted) !important; 
-    font-size: 0.75rem !important;       
+    color: var(--text-muted) !important;
+    font-size: 0.75rem !important;
     opacity: 0.7;
     margin-top: 0.5rem;
     font-family: var(--font-sans);
@@ -439,6 +444,35 @@ section { padding: 5rem 0; }
     margin-top: 0.3rem;
 }
 
+/* ================= БЛОК БЕСПЛАТНОГО ФРАГМЕНТА ================= */
+.fragment-banner {
+    background: linear-gradient(145deg, var(--graphite) 0%, var(--coal) 100%);
+    border: 1px solid rgba(180, 154, 98, 0.2);
+    border-radius: 8px;
+    padding: 1.5rem 2rem;
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.fragment-banner h3 {
+    color: var(--gold);
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    margin-bottom: 0.3rem;
+}
+
+.fragment-banner p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
 /* ================= АДАПТИВНОСТЬ ================= */
 @media (max-width: 768px) {
     h1 { font-size: 2.5rem; }
@@ -484,6 +518,12 @@ section { padding: 5rem 0; }
     .play-button { width: 60px; height: 60px; }
     .play-button svg { width: 30px; height: 30px; }
     .store-groups { flex-direction: column; gap: 1.5rem; }
+    
+    .fragment-banner {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem;
+    }
 }
 
 /* ================= ДОСТУПНОСТЬ ================= */
@@ -494,50 +534,5 @@ section { padding: 5rem 0; }
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
-    }
-}
-
-/* ================= ВИДЖЕТ RIDERO ================= */
-@media (max-width: 768px) {
-    .ridero-widget {
-        height: 500px !important; /* Уменьшаем высоту для телефонов */
-    }
-}
-
-/* ================= БЛОК БЕСПЛАТНОГО ФРАГМЕНТА ================= */
-.fragment-banner {
-    background: linear-gradient(145deg, var(--graphite) 0%, var(--coal) 100%);
-    border: 1px solid rgba(180, 154, 98, 0.2);
-    border-radius: 8px;
-    padding: 1.5rem 2rem;
-    margin-top: 2rem;
-    margin-bottom: 3rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-.fragment-banner h3 {
-    color: var(--gold);
-    font-family: var(--font-serif);
-    font-size: 1.4rem;
-    margin-bottom: 0.3rem;
-}
-
-.fragment-banner p {
-    color: var(--text-muted);
-    font-size: 0.95rem;
-    margin-bottom: 0;
-}
-
-/* Адаптивность для телефона */
-@media (max-width: 768px) {
-    .fragment-banner {
-        flex-direction: column;
-        text-align: center;
-        padding: 1.5rem;
     }
 }
