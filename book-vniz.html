@@ -29,16 +29,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     
     <style>
-        /* Стили для кастомного виджета PDF */
+        /* СТИЛИ ДЛЯ ВИДЖЕТА (СДЕЛАЛИ ПРОЗРАЧНЫМ) */
         .pdf-widget-container {
-            background-color: var(--graphite);
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            background-color: transparent; /* Убрали серый фон */
+            padding: 1rem 0;
             margin-top: 2rem;
             display: flex;
             flex-direction: column;
             align-items: center;
+            box-shadow: none;
         }
 
         .pdf-viewer-wrapper {
@@ -55,23 +54,20 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.6);
             border-radius: 4px;
             overflow: hidden;
-            /* ЖЕСТКОЕ ОГРАНИЧЕНИЕ ШИРИНЫ И ВЫСОТЫ */
             width: 100%;
-            max-width: 450px; 
-            max-height: 550px; 
+            max-width: 550px; 
+            max-height: 650px; 
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Страница прижимается к верху */
+            align-items: flex-start;
         }
 
         #pdf-canvas {
             display: block;
             width: 100%;
             height: auto;
-            object-fit: contain; /* Сохраняет пропорции */
         }
 
-        /* Красивые стрелки */
         .pdf-nav-btn {
             background: transparent;
             border: 1px solid rgba(180, 154, 98, 0.4);
@@ -121,13 +117,9 @@
                 height: 40px;
                 font-size: 1.5rem;
             }
-            .pdf-widget-container {
-                padding: 1rem;
-            }
-            /* Уменьшаем высоту для телефонов */
             .pdf-canvas-container {
                 max-width: 100%;
-                max-height: 400px; 
+                max-height: 450px; 
             }
         }
     </style>
@@ -199,26 +191,19 @@
                 </div>
             </div>
 
-            <!-- НАШ КАСТОМНЫЙ ВИДЖЕТ -->
+            <!-- ВИДЖЕТ (БЕЗ СЕРОГО ПРЯМОУГОЛЬНИКА) -->
             <div id="fragment-section" class="video-promo-container">
                 <h2 style="text-align: center; margin-bottom: 1rem;">Читать фрагмент</h2>
                 <p style="text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;">Пролог и первая глава</p>
                 
                 <div class="pdf-widget-container">
                     <div class="pdf-viewer-wrapper">
-                        <!-- Кнопка "Назад" -->
                         <button id="prev-page" class="pdf-nav-btn" disabled>←</button>
-                        
-                        <!-- Контейнер для страницы -->
                         <div class="pdf-canvas-container">
                             <canvas id="pdf-canvas"></canvas>
                         </div>
-                        
-                        <!-- Кнопка "Вперед" -->
                         <button id="next-page" class="pdf-nav-btn">→</button>
                     </div>
-                    
-                    <!-- Номер страницы -->
                     <div class="pdf-controls">
                         Страница <span id="page-num">1</span> из <span id="page-count">6</span>
                     </div>
@@ -270,7 +255,7 @@
     </footer>
     <script src="js/menu.js"></script>
 
-    <!-- СКРИПТ ДЛЯ РЕНДЕРА PDF -->
+    <!-- СКРИПТ С ВЫСОКИМ РАЗРЕШЕНИЕМ -->
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
@@ -294,19 +279,24 @@
 
                 let viewport = page.getViewport({scale: 1});
                 
-                // Считаем масштаб, чтобы страница влезла и по ширине, и по высоте
                 let scaleWidth = containerWidth / viewport.width;
                 let scaleHeight = containerHeight / viewport.height;
-                let scale = Math.min(scaleWidth, scaleHeight); // Берем меньший масштаб
+                let scale = Math.min(scaleWidth, scaleHeight);
 
-                let scaledViewport = page.getViewport({scale: scale});
+                let outputScale = window.devicePixelRatio || 2; 
+                
+                let scaledViewport = page.getViewport({scale: scale * outputScale});
 
-                canvas.height = scaledViewport.height;
                 canvas.width = scaledViewport.width;
+                canvas.height = scaledViewport.height;
+
+                canvas.style.width = Math.floor(scaledViewport.width / outputScale) + 'px';
+                canvas.style.height = Math.floor(scaledViewport.height / outputScale) + 'px';
 
                 let renderContext = {
                     canvasContext: ctx,
-                    viewport: scaledViewport
+                    viewport: scaledViewport,
+                    transform: [1 / outputScale, 0, 0, 1 / outputScale, 0, 0]
                 };
                 
                 let renderTask = page.render(renderContext);
@@ -341,7 +331,6 @@
             queueRenderPage(pageNum);
         });
 
-        // Загружаем PDF
         pdfjsLib.getDocument('fragment-vniz.pdf').promise.then(function(pdfDoc_) {
             pdfDoc = pdfDoc_;
             document.getElementById('page-count').textContent = pdfDoc.numPages;
