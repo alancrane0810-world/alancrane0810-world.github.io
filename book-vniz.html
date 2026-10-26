@@ -29,15 +29,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     
     <style>
-        /* СТИЛИ ДЛЯ ВИДЖЕТА (СДЕЛАЛИ ПРОЗРАЧНЫМ) */
+        /* Стили для виджета */
         .pdf-widget-container {
-            background-color: transparent; /* Убрали серый фон */
+            background-color: transparent; 
             padding: 1rem 0;
             margin-top: 2rem;
             display: flex;
             flex-direction: column;
             align-items: center;
-            box-shadow: none;
         }
 
         .pdf-viewer-wrapper {
@@ -49,23 +48,24 @@
             margin-bottom: 1rem;
         }
 
+        /* Контейнер для страницы */
         .pdf-canvas-container {
             background-color: #fff;
             box-shadow: 0 5px 15px rgba(0,0,0,0.6);
             border-radius: 4px;
             overflow: hidden;
+            /* Ограничение по ширине, чтобы не было гигантским */
             width: 100%;
-            max-width: 550px; 
-            max-height: 650px; 
+            max-width: 500px; 
+            /* Высота подстраивается под контент */
             display: flex;
             justify-content: center;
-            align-items: flex-start;
         }
 
         #pdf-canvas {
             display: block;
-            width: 100%;
-            height: auto;
+            width: 100%; /* Растягиваем на всю ширину контейнера */
+            height: auto; /* Высота подстраивается автоматически */
         }
 
         .pdf-nav-btn {
@@ -119,7 +119,6 @@
             }
             .pdf-canvas-container {
                 max-width: 100%;
-                max-height: 450px; 
             }
         }
     </style>
@@ -191,7 +190,7 @@
                 </div>
             </div>
 
-            <!-- ВИДЖЕТ (БЕЗ СЕРОГО ПРЯМОУГОЛЬНИКА) -->
+            <!-- ВИДЖЕТ -->
             <div id="fragment-section" class="video-promo-container">
                 <h2 style="text-align: center; margin-bottom: 1rem;">Читать фрагмент</h2>
                 <p style="text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;">Пролог и первая глава</p>
@@ -255,7 +254,7 @@
     </footer>
     <script src="js/menu.js"></script>
 
-    <!-- СКРИПТ С ВЫСОКИМ РАЗРЕШЕНИЕМ -->
+    <!-- СКРИПТ -->
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
@@ -274,15 +273,14 @@
             document.getElementById('page-num').textContent = num;
 
             pdfDoc.getPage(num).then(function(page) {
+                // Берем ширину контейнера
                 let containerWidth = canvas.parentElement.clientWidth;
-                let containerHeight = canvas.parentElement.clientHeight;
-
+                
                 let viewport = page.getViewport({scale: 1});
                 
-                let scaleWidth = containerWidth / viewport.width;
-                let scaleHeight = containerHeight / viewport.height;
-                let scale = Math.min(scaleWidth, scaleHeight);
-
+                // Масштабируем ТОЛЬКО по ширине контейнера, чтобы сохранить пропорции А4
+                let scale = containerWidth / viewport.width;
+                
                 let outputScale = window.devicePixelRatio || 2; 
                 
                 let scaledViewport = page.getViewport({scale: scale * outputScale});
@@ -290,6 +288,7 @@
                 canvas.width = scaledViewport.width;
                 canvas.height = scaledViewport.height;
 
+                // Устанавливаем CSS размер
                 canvas.style.width = Math.floor(scaledViewport.width / outputScale) + 'px';
                 canvas.style.height = Math.floor(scaledViewport.height / outputScale) + 'px';
 
