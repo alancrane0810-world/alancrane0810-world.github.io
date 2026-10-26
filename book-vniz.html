@@ -25,100 +25,105 @@
     <noscript><div><img src="https://mc.yandex.ru/watch/113776658" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     <!-- /Yandex.Metrika counter -->
     
-    <!-- Подключение PDF.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    
     <style>
-        /* Стили для виджета */
-        .pdf-widget-container {
-            background-color: transparent; 
-            padding: 1rem 0;
+        /* Стили для читалки */
+        .reader-container {
+            background-color: var(--graphite);
+            border: 1px solid rgba(180, 154, 98, 0.2);
+            border-radius: 8px;
+            padding: 2rem 2.5rem;
             margin-top: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            /* УМЕНЬШИЛИ ВЫСОТУ (было 650px) */
+            height: 450px; 
         }
 
-        .pdf-viewer-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 2rem;
-            width: 100%;
+        .reader-content {
+            font-family: var(--font-serif);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--text-light);
+            text-align: justify;
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-right: 0.5rem;
             margin-bottom: 1rem;
         }
 
-        /* Контейнер для страницы */
-        .pdf-canvas-container {
-            background-color: #fff;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.6);
-            border-radius: 4px;
-            overflow: hidden;
-            /* Ограничение по ширине, чтобы не было гигантским */
-            width: 100%;
-            max-width: 500px; 
-            /* Высота подстраивается под контент */
-            display: flex;
-            justify-content: center;
+        /* Стилизация скроллбара */
+        .reader-content::-webkit-scrollbar { width: 4px; }
+        .reader-content::-webkit-scrollbar-track { background: transparent; }
+        .reader-content::-webkit-scrollbar-thumb { background: rgba(180, 154, 98, 0.3); border-radius: 2px; }
+
+        .reader-content p {
+            margin-bottom: 1rem;
+            text-indent: 1.5rem;
         }
 
-        #pdf-canvas {
-            display: block;
-            width: 100%; /* Растягиваем на всю ширину контейнера */
-            height: auto; /* Высота подстраивается автоматически */
-        }
-
-        .pdf-nav-btn {
-            background: transparent;
-            border: 1px solid rgba(180, 154, 98, 0.4);
+        .reader-content h3 {
+            text-align: center;
+            font-size: 1.5rem;
             color: var(--gold);
-            font-size: 2rem;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            cursor: pointer;
+            margin-bottom: 1.2rem;
+            margin-top: 0.5rem;
+        }
+
+        .reader-controls {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(180, 154, 98, 0.2);
             flex-shrink: 0;
         }
 
-        .pdf-nav-btn:hover:not(:disabled) {
-            background-color: var(--gold);
-            color: var(--coal);
-            border-color: var(--gold);
+        .reader-btn {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 0.5rem 1rem;
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .pdf-nav-btn:disabled {
+        .reader-btn:hover:not(:disabled) {
+            background-color: var(--gold);
+            color: var(--coal);
+        }
+
+        .reader-btn:disabled {
             opacity: 0.3;
             cursor: not-allowed;
         }
 
-        .pdf-controls {
-            text-align: center;
-            color: var(--text-light);
+        .reader-page-num {
+            color: var(--text-muted);
             font-family: var(--font-sans);
-            font-size: 0.9rem;
-            letter-spacing: 0.05em;
-        }
-        
-        .pdf-controls span {
-            color: var(--gold);
-            font-weight: 600;
+            font-size: 0.8rem;
         }
 
         @media (max-width: 768px) {
-            .pdf-viewer-wrapper {
-                gap: 0.5rem;
+            .reader-container {
+                padding: 1.5rem;
+                height: 400px; /* На мобильных чуть меньше */
             }
-            .pdf-nav-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 1.5rem;
+            .reader-content {
+                font-size: 1rem;
             }
-            .pdf-canvas-container {
-                max-width: 100%;
+            .reader-controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .reader-btn {
+                width: 100%;
             }
         }
     </style>
@@ -190,21 +195,124 @@
                 </div>
             </div>
 
-            <!-- ВИДЖЕТ -->
+            <!-- ЧИТАЛКА -->
             <div id="fragment-section" class="video-promo-container">
                 <h2 style="text-align: center; margin-bottom: 1rem;">Читать фрагмент</h2>
                 <p style="text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;">Пролог и первая глава</p>
                 
-                <div class="pdf-widget-container">
-                    <div class="pdf-viewer-wrapper">
-                        <button id="prev-page" class="pdf-nav-btn" disabled>←</button>
-                        <div class="pdf-canvas-container">
-                            <canvas id="pdf-canvas"></canvas>
+                <div class="reader-container">
+                    <div class="reader-content" id="reader-text">
+                        
+                        <!-- СТРАНИЦА 1 -->
+                        <div class="reader-page" id="page-1">
+                            <h3>Пролог</h3>
+                            <p>Лера давно носила силу, как броню.</p>
+                            <p>После гибели мужа её жизнь обернулась бесконечным серым тоннелем, где каждый день терял очертания и смысл. Обыденные радости — аромат чая, мелодия радио, дуновение ветра — превратились в пепел. В зеркале она видела лишь бледную тень себя прежней: глаза потухли, как звёзды в ненастье, движения стали механическими, будто кукольными. Смерть, однажды забрав любимого, продолжала ежедневно отщипывать куски от её души — медленно, без пощады.</p>
                         </div>
-                        <button id="next-page" class="pdf-nav-btn">→</button>
+
+                        <!-- СТРАНИЦА 2 -->
+                        <div class="reader-page" id="page-2" style="display: none;">
+                            <p>Первые месяцы проходили в вязком тумане отчаяния. Каждый рассвет требовал неимоверных усилий — не ради счастья, а чтобы просто подняться, сделать вдох, существовать. Слова сочувствия близких звучали фальшиво — будто звенящие осколки стекла в пустоте. Мир мчался вперёд, оставив её на обочине — в дне трагедии, в последнем взгляде, в телефонном звонке, перечеркнувшем всю её прежнюю судьбу.</p>
+                            <p>Предложение обратиться к психотерапевту она отвергла с гордостью раненого зверя. Внутри неё жила убеждённость: справиться с болью — её личная, святая обязанность. Ради памяти. Ради любви, что всё ещё горела внутри, как неугасимая лампада. Ради прошлого, ставшего тяжёлым якорем. Но боль не уходила. Она лишь меняла форму — становилась змеиным ядом, что с каждым ударом сердца отравлял её изнутри.</p>
+                        </div>
+
+                        <!-- СТРАНИЦА 3 -->
+                        <div class="reader-page" id="page-3" style="display: none;">
+                            <p>И вот, обессилев, Лера сдалась. Впервые переступила порог кабинета психотерапевта — села, словно приговорённая, молча сжимая заледеневшие пальцы. Тогда она поняла: у боли нет лица и голоса, но у неё есть эхо — всепоглощающее, которому можно дать имя. Сеанс за сеансом она училась говорить, выпуская на волю крик души. А затем — слушать. Слушать других. И в этом слушании она впервые нашла спасение.</p>
+                            <p>Прошло два года, как в миг. Теперь Лера — сама психотерапевт, вселяющая надежду. Её работа стала не просто профессией — она была убежищем. За чужими историями она прятала своё собственное горе. Слушая, как рушатся жизни других, она будто глушила голос своей боли. Помогая пациентам, отчаянно пыталась убедить себя, что уже исцелена.</p>
+                        </div>
+
+                        <!-- СТРАНИЦА 4 -->
+                        <div class="reader-page" id="page-4" style="display: none;">
+                            <p>Она внимала чужим исповедям: о распавшихся семьях, утраченных детях, обжигающем одиночестве. Эти рассказы проходили сквозь неё, как тени, оставляя след — но не пробивая ту неприступную броню, которую она сама выстроила вокруг сердца. Камень за камнем. Улыбка за улыбкой.</p>
+                            <p>Но за маской профессионализма всё ещё жила женщина, не простившая себе одно роковое утро. Женщина, которая каждую ночь слышала эхо голоса, навсегда замолкшего в этом мире.</p>
+                            <p>Лера не была сломлена. Но и целой себя назвать не могла. В её душе зияла трещина, которую она тщетно пыталась залатать.</p>
+                        </div>
+
+                        <!-- СТРАНИЦА 5 -->
+                        <div class="reader-page" id="page-5" style="display: none;">
+                            <p>И именно тогда, когда ей казалось, что она научилась жить с этим хаосом, в её жизни появился новый пациент.</p>
+                            <p><strong>Андрей.</strong></p>
+                            <p>С виду — обычный мужчина. Один из многих. Переживший болезненный развод. Надломленный, но держащийся из последних сил. Но в его глазах было нечто такое, от чего внутри Леры болезненно дрогнуло. Это был не просто очередной пациент. Это было зеркало. Отголосок её собственной, невысказанной боли. Человек, в чьей тишине звучала трагедия, которую она знала наизусть.</p>
+                        </div>
+
+                        <!-- СТРАНИЦА 6 -->
+                        <div class="reader-page" id="page-6" style="display: none;">
+                            <p>Она не могла даже представить, как эта встреча перевернёт её жизнь. Не догадывалась, что их терапевтические беседы перерастут в нечто большее. Что их души, двигавшиеся по параллельным рельсам, однажды столкнутся на перекрёстке судьбы.</p>
+                            <p>И начнётся история, которую никто из них не мог предвидеть. История, написанная слезами, надеждой — и исцеляющей силой любви.</p>
+                        </div>
+
+                        <!-- СТРАНИЦА 7 (ГЛАВА 1) -->
+                        <div class="reader-page" id="page-7" style="display: none;">
+                            <h3>Глава 1. Новый клиент</h3>
+                            <p>Андрей пришёл к Лере по рекомендации коллеги. Запись затерялась между двумя изматывающими сессиями, выжимавшими из неё остатки сил. Она скользнула взглядом по анкете: имя, возраст, сухая ремарка — «развод, эмоциональная лабильность». Банальность. Тысячи таких историй — словно штампы на пожелтевшей бумаге жизни.</p>
+                            <p>Но когда он переступил порог, Лера нутром ощутила: это будет не просто визит к врачу.</p>
+                        </div>
+
+                        <!-- СТРАНИЦА 8 -->
+                        <div class="reader-page" id="page-8" style="display: none;">
+                            <p>Он возвышался над ней, как древний дуб над хрупкой травинкой. Одет в простую броню — тёмные джинсы и свитер, протёртый на локтях, будто от долгих молитв о былом. В его походке звучала не телесная усталость — душевная, тягучая, как ил, оседающий на дне колодца.</p>
+                            <p>Он присел на краешек кресла, будто боялся пустить корни. Взгляд блуждал: сперва зацепился за окно, затем, нехотя, опустился на неё. Томительная пауза. Глубокий вдох — как будто выдавливал из себя остатки надежды. И всё.</p>
+                        </div>
+
+                        <!-- СТРАНИЦА 9 -->
+                        <div class="reader-page" id="page-9" style="display: none;">
+                            <p>Лера взглянула внимательнее. Лицо — ничем не примечательное, словно холст, на котором ещё не написана картина судьбы. Но глаза… В них плескалось нечто — глухой зов, будто эхо из старого колодца. Не просто боль — беззвучная мольба о сочувствии. И страх разоблачения. Как когда-то у неё самой.</p>
+                            <p>Это испугало. Будто отражение в мутном зеркале прошлого.</p>
+                        </div>
+
+                        <!-- СТРАНИЦА 10 -->
+                        <div class="reader-page" id="page-10" style="display: none;">
+                            <p>— Добрый день, — произнесла она мягко, почти шёпотом. — Я Лера. Здесь можно говорить обо всём. Или молчать, если нужно. Не спешите. Пусть слова зреют, как плоды на ветках.</p>
+                            <p>Он едва заметно кивнул. Плечи напряжены. Руки вцепились друг в друга, словно хватались за край утеса. Сидел, как обвиняемый, потерянный в лабиринте собственных мыслей.</p>
+                            <p>Минута. Другая. Он молчал. И Лера не торопила. Первое молчание — часто самое красноречивое.</p>
+                        </div>
+
+                        <!-- СТРАНИЦА 11 -->
+                        <div class="reader-page" id="page-11" style="display: none;">
+                            <p>— Я не люблю говорить, — выдохнул он, словно голос заскрипел после долгого молчания. — Но мне сказали… надо попробовать.</p>
+                            <p>— Уже хорошо, что вы пришли, — отозвалась она. — Это значит, вы всё ещё держите в себе надежду. Или хотя бы жажду объяснений. Иногда это важнее.</p>
+                            <p>Он усмехнулся криво. Горько.</p>
+                            <p>— Я просто больше так не могу. Вроде живу, дышу. А внутри — всё выжжено. Пепел и пустота.</p>
+                        </div>
+
+                        <!-- СТРАНИЦА 12 -->
+                        <div class="reader-page" id="page-12" style="display: none;">
+                            <p>Лера сжала пальцы. Эти слова… как будто она вырвала их когда-то сама. Только рядом тогда не было никого, кто был бы готов их услышать.</p>
+                            <p>— Что умерло? — осторожно спросила она.</p>
+                            <p>Андрей поднял глаза. Взгляд — острый, будто пробил тьму.</p>
+                            <p>— Вера, — прошептал он. — В людей. В любовь. В то, что муки когда-нибудь закончатся.</p>
+                            <p>Комната погрузилась в тишину. Даже воздух стал плотнее.</p>
+                            <p>Лера ощутила, как в её броне появилась трещина. Не разрушение — но дрожь. Он не искал спасения. Он просто хотел, чтобы его боль признали реальной.</p>
+                        </div>
+
+                        <!-- СТРАНИЦА 13 -->
+                        <div class="reader-page" id="page-13" style="display: none;">
+                            <p>— Расскажите, — тихо сказала она. — С чего началась эта буря?</p>
+                            <p>Он закрыл глаза. Вздохнул.</p>
+                            <p>— Жену я любил. До безумия. Как только умалишённые умеют любить. Держался до последнего. Верил — просто кризис, просто тьма, которую мы переживём.</p>
+                            <p>Он замолчал. Слово застряло в горле, как кость.</p>
+                            <p>— А потом узнал, что она… давно ушла. Внутренне. К другому. А я… просто зажмурился. Не хотел видеть гниль.</p>
+                            <p>Он отвернулся к окну.</p>
+                        </div>
+
+                        <!-- СТРАНИЦА 14 -->
+                        <div class="reader-page" id="page-14" style="display: none;">
+                            <p>Лера ощутила, как тяжесть осела в груди. Предательство, любовь, утрата — ей это знакомо. Но в его голосе звучало нечто большее. Бездна.</p>
+                            <p>— Это было самое тяжёлое? — мягко спросила она.</p>
+                            <p>Он кивнул. Затем резко мотнул головой.</p>
+                            <p>— Нет. Самое страшное — понять, что ты стал лишним. Не нужен. Что тебя не ждут. Не боятся потерять. Ты — тень. Призрак в жизни того, для кого был целым миром.</p>
+                            <p>Она молчала. Пальцы подрагивали на коленях.</p>
+                            <p>Он говорил её словами. Будто читал по её внутренней ране. Он чувствовал её боль. И она — его.</p>
+                            <p>— Вы не тень, Андрей, — сказала Лера, прямо глядя ему в глаза. — Вы потеряли свет. Это не одно и то же.</p>
+                        </div>
+
                     </div>
-                    <div class="pdf-controls">
-                        Страница <span id="page-num">1</span> из <span id="page-count">6</span>
+
+                    <div class="reader-controls">
+                        <button class="reader-btn" id="btn-prev" disabled>← Назад</button>
+                        <span class="reader-page-num" id="page-indicator">Страница 1 из 14</span>
+                        <button class="reader-btn" id="btn-next">Вперед →</button>
                     </div>
                 </div>
             </div>
@@ -214,7 +322,7 @@
                 <div class="video-wrapper">
                     <video id="video-vniz" controls preload="metadata" playsinline poster="images/poster-vniz.jpg">
                         <source src="videos/vniz-promo.mp4" type="video/mp4">
-                        Ваш браузер не поддерживает встроенное видео.
+                        Ваш браузер не поддерживает видеоплеер.
                     </video>
                     <div class="play-button" onclick="document.getElementById('video-vniz').play(); this.style.display='none';">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 5V19L19 12L8 5Z" fill="currentColor"/></svg>
@@ -254,87 +362,44 @@
     </footer>
     <script src="js/menu.js"></script>
 
-    <!-- СКРИПТ -->
+    <!-- СКРИПТ ПЕРЕЛИСТЫВАНИЯ -->
     <script>
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        let currentPage = 1;
+        const totalPages = 14;
+        const btnPrev = document.getElementById('btn-prev');
+        const btnNext = document.getElementById('btn-next');
+        const pageIndicator = document.getElementById('page-indicator');
+        const readerContent = document.getElementById('reader-text');
 
-        let pdfDoc = null,
-            pageNum = 1,
-            pageRendering = false,
-            pageNumPending = null,
-            canvas = document.getElementById('pdf-canvas'),
-            ctx = canvas.getContext('2d');
-
-        function renderPage(num) {
-            pageRendering = true;
-            
-            document.getElementById('prev-page').disabled = (num <= 1);
-            document.getElementById('next-page').disabled = (num >= pdfDoc.numPages);
-            document.getElementById('page-num').textContent = num;
-
-            pdfDoc.getPage(num).then(function(page) {
-                // Берем ширину контейнера
-                let containerWidth = canvas.parentElement.clientWidth;
-                
-                let viewport = page.getViewport({scale: 1});
-                
-                // Масштабируем ТОЛЬКО по ширине контейнера, чтобы сохранить пропорции А4
-                let scale = containerWidth / viewport.width;
-                
-                let outputScale = window.devicePixelRatio || 2; 
-                
-                let scaledViewport = page.getViewport({scale: scale * outputScale});
-
-                canvas.width = scaledViewport.width;
-                canvas.height = scaledViewport.height;
-
-                // Устанавливаем CSS размер
-                canvas.style.width = Math.floor(scaledViewport.width / outputScale) + 'px';
-                canvas.style.height = Math.floor(scaledViewport.height / outputScale) + 'px';
-
-                let renderContext = {
-                    canvasContext: ctx,
-                    viewport: scaledViewport,
-                    transform: [1 / outputScale, 0, 0, 1 / outputScale, 0, 0]
-                };
-                
-                let renderTask = page.render(renderContext);
-
-                renderTask.promise.then(function() {
-                    pageRendering = false;
-                    if (pageNumPending !== null) {
-                        renderPage(pageNumPending);
-                        pageNumPending = null;
-                    }
-                });
-            });
-        }
-
-        function queueRenderPage(num) {
-            if (pageRendering) {
-                pageNumPending = num;
-            } else {
-                renderPage(num);
+        function updateReader() {
+            for (let i = 1; i <= totalPages; i++) {
+                let page = document.getElementById('page-' + i);
+                if(page) page.style.display = 'none';
             }
+            document.getElementById('page-' + currentPage).style.display = 'block';
+            
+            readerContent.scrollTop = 0;
+
+            btnPrev.disabled = (currentPage === 1);
+            btnNext.disabled = (currentPage === totalPages);
+            pageIndicator.textContent = `Страница ${currentPage} из ${totalPages}`;
         }
 
-        document.getElementById('prev-page').addEventListener('click', () => {
-            if (pageNum <= 1) return;
-            pageNum--;
-            queueRenderPage(pageNum);
+        btnPrev.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                updateReader();
+            }
         });
 
-        document.getElementById('next-page').addEventListener('click', () => {
-            if (pageNum >= pdfDoc.numPages) return;
-            pageNum++;
-            queueRenderPage(pageNum);
+        btnNext.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                updateReader();
+            }
         });
 
-        pdfjsLib.getDocument('fragment-vniz.pdf').promise.then(function(pdfDoc_) {
-            pdfDoc = pdfDoc_;
-            document.getElementById('page-count').textContent = pdfDoc.numPages;
-            renderPage(pageNum);
-        });
+        updateReader();
     </script>
 </body>
 </html>
