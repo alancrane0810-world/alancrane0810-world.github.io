@@ -66,11 +66,10 @@
                     <img src="images/portrait.jpg" alt="Портрет писателя Алана Крейна" class="portrait-img">
                 </div>
             </div>
-            <!-- ПЛАВНЫЙ ПЕРЕХОД (Градиент от прозрачного к темному) -->
             <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 200px; background: linear-gradient(to bottom, transparent, var(--coal)); pointer-events: none;"></div>
         </section>
 
-        <!-- ФИЛОСОФИЯ (С ЗОЛОТОЙ ЛИНИЕЙ) -->
+        <!-- ФИЛОСОФИЯ -->
         <section class="philosophy container" style="padding-top: 2rem; padding-bottom: 4rem;">
             <div style="text-align: center; margin-bottom: 2rem;">
                 <span style="display: inline-block; width: 60px; height: 1px; background: var(--gold); opacity: 0.5;"></span>
@@ -86,19 +85,20 @@
             <hr style="border: none; height: 1px; background: linear-gradient(90deg, transparent, rgba(180, 154, 98, 0.4), transparent); margin: 0 auto; width: 80%;">
         </div>
 
-        <!-- ОБ АВТОРЕ -->
-        <section class="about-brief container" style="padding-top: 4rem; padding-bottom: 5rem;">
-            <h2>Об авторе</h2>
-            <p>Алан Крейн — писатель из Кара-Балты, Кыргызстан, работающий в направлениях психологической прозы, поэзии и философского фэнтези.</p>
+        <!-- ОБ АВТОРЕ (ЦЕНТРИРОВАНО) -->
+        <section class="about-brief container" style="padding-top: 4rem; padding-bottom: 5rem; text-align: center;">
+            <h2 style="text-align: center;">Об авторе</h2>
+            <p style="max-width: 800px; margin: 0 auto 2rem auto; text-align: center;">Алан Крейн — писатель из Кара-Балты, Кыргызстан, работающий в направлениях психологической прозы, поэзии и философского фэнтези.</p>
             
-            <div class="section-link" style="text-align: left; margin-top: 2rem;">
+            <div>
                 <a href="about.html" class="btn btn-outline">Читать биографию</a>
             </div>
         </section>
 
-        <section class="shelf container">
-            <h2>Книги</h2>
-            <div class="books-grid">
+        <!-- КНИГИ (ЦЕНТРИРОВАНО) -->
+        <section class="shelf container" style="padding-bottom: 5rem;">
+            <h2 style="text-align: center; margin-bottom: 3rem;">Книги</h2>
+            <div class="books-grid" style="justify-content: center;">
                 <a href="book-vniz.html" class="book-card">
                     <img src="images/cover-vniz.jpg" alt="Обложка книги «Вниз по рельсам»" class="cover-img">
                     <h3>Вниз по рельсам</h3>
@@ -110,17 +110,18 @@
                     <p class="book-year">2026 · Поэзия</p>
                 </a>
             </div>
-            <div class="section-link">
+            <div style="text-align: center; margin-top: 3rem;">
                 <a href="books.html" class="btn">Все книги</a>
             </div>
         </section>
 
-        <section class="project-highlight container" style="padding-bottom: 2rem;">
-            <h2>Проекты</h2>
-            <div class="project-card">
+        <!-- ПРОЕКТЫ (ЦЕНТРИРОВАНО) -->
+        <section class="project-highlight container" style="padding-bottom: 5rem;">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Проекты</h2>
+            <div class="project-card" style="max-width: 600px; margin: 0 auto; text-align: center;">
                 <span class="status-badge">В работе</span>
                 <h3>Айранор: Суд над душой</h3>
-                <p>Литературный проект в разработке. Подробности на отдельной странице.</p>
+                <p style="margin-bottom: 1.5rem;">Литературный проект в разработке. Подробности на отдельной странице.</p>
                 <a href="airanor.html" class="btn btn-outline">Подробнее</a>
             </div>
         </section>
