@@ -24,6 +24,9 @@
     </script>
     <noscript><div><img src="https://mc.yandex.ru/watch/113776658" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     <!-- /Yandex.Metrika counter -->
+    
+    <!-- Подключение PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 <body>
     <header class="site-header">
@@ -65,9 +68,9 @@
                     <p>Что, если любовь — это не выход, а зеркало?</p>
                     <p>Эта история — путешествие двух сломленных людей сквозь тишину, страх и запреты. Он — пациент, ищущий спасения. Она — психотерапевт, прячущаяся за стенами профессии. Но чувства не спрашивают разрешения. Это книга о границах, которые рушатся, когда начинается настоящее. Первая работа Алана Крейна.</p>
                     
-                    <!-- КНОПКА ФРАГМЕНТА (ОТКРЫВАЕТ ЧИТАЛКУ) -->
                     <div style="margin-top: 1.5rem; margin-bottom: 2rem;">
-                        <button onclick="document.getElementById('pdf-reader').style.display='block';" class="btn">Читать фрагмент</button>
+                        <!-- КНОПКА ПРОКРУТКИ К ЧИТАЛКЕ -->
+                        <button onclick="document.getElementById('pdf-reader-container').scrollIntoView({behavior: 'smooth'});" class="btn">Читать фрагмент</button>
                     </div>
 
                     <div class="store-groups">
@@ -93,17 +96,26 @@
                 </div>
             </div>
 
-            <!-- ЧИТАЛКА PDF (СКРЫТА ПО УМОЛЧАНИЮ) -->
-            <div id="pdf-reader" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(13, 13, 15, 0.98); z-index: 9999; padding: 2rem; overflow-y: auto;">
-                <div style="max-width: 800px; margin: 0 auto;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                        <h3 style="color: var(--gold); font-family: var(--font-serif); font-size: 1.5rem;">Фрагмент: Вниз по рельсам</h3>
-                        <button onclick="document.getElementById('pdf-reader').style.display='none';" style="background: none; border: none; color: var(--text-light); font-size: 2rem; cursor: pointer;">&times;</button>
+            <!-- ВСТРОЕННАЯ ЧИТАЛКА PDF -->
+            <div id="pdf-reader-container" class="video-promo-container" style="margin-top: 2rem;">
+                <h2 style="text-align: center;">Читать фрагмент</h2>
+                
+                <div style="background-color: var(--graphite); padding: 1.5rem; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                    
+                    <!-- КОНТЕЙНЕР ДЛЯ СТРАНИЦЫ -->
+                    <div style="position: relative; text-align: center; background-color: #1a1a1a; min-height: 500px; display: flex; justify-content: center; align-items: center; border-radius: 4px; overflow: hidden;">
+                        <canvas id="pdf-canvas" style="max-width: 100%; box-shadow: 0 0 20px rgba(0,0,0,0.8);"></canvas>
                     </div>
-                    <iframe src="fragment-vniz.pdf" width="100%" height="800px" style="border: 1px solid rgba(180, 154, 98, 0.2); border-radius: 5px;"></iframe>
+
+                    <!-- КНОПКИ УПРАВЛЕНИЯ -->
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 2rem; margin-top: 1.5rem;">
+                        <button id="prev-page" class="btn btn-outline" style="padding: 0.5rem 1.5rem;">← Назад</button>
+                        <span id="page-num" style="color: var(--text-light); font-family: var(--font-sans); font-size: 0.9rem;">Страница 1</span>
+                        <button id="next-page" class="btn btn-outline" style="padding: 0.5rem 1.5rem;">Вперед →</button>
+                    </div>
+                    <p style="text-align: center; margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted);">Фрагмент: Пролог и первая глава</p>
                 </div>
             </div>
-            <!-- КОНЕЦ ЧИТАЛКИ -->
 
             <div class="video-promo-container">
                 <h2>Видеопромо</h2>
@@ -149,5 +161,76 @@
         </div>
     </footer>
     <script src="js/menu.js"></script>
+
+    <!-- СКРИПТ ДЛЯ РАБОТЫ ЧИТАЛКИ PDF -->
+    <script>
+        // Указываем путь к worker-скрипту (нужно для работы PDF.js)
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        let pdfDoc = null,
+            pageNum = 1,
+            pageRendering = false,
+            pageNumPending = null,
+            scale = 1.5, // Масштаб страницы
+            canvas = document.getElementById('pdf-canvas'),
+            ctx = canvas.getContext('2d');
+
+        function renderPage(num) {
+            pageRendering = true;
+            // Получаем страницу
+            pdfDoc.getPage(num).then(function(page) {
+                let viewport = page.getViewport({scale: scale});
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                // Рендерим страницу в canvas
+                let renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+                let renderTask = page.render(renderContext);
+
+                renderTask.promise.then(function() {
+                    pageRendering = false;
+                    if (pageNumPending !== null) {
+                        renderPage(pageNumPending);
+                        pageNumPending = null;
+                    }
+                });
+            });
+
+            // Обновляем номер страницы
+            document.getElementById('page-num').textContent = 'Страница ' + num;
+        }
+
+        function queueRenderPage(num) {
+            if (pageRendering) {
+                pageNumPending = num;
+            } else {
+                renderPage(num);
+            }
+        }
+
+        function onPrevPage() {
+            if (pageNum <= 1) return;
+            pageNum--;
+            queueRenderPage(pageNum);
+        }
+
+        function onNextPage() {
+            if (pageNum >= pdfDoc.numPages) return;
+            pageNum++;
+            queueRenderPage(pageNum);
+        }
+
+        document.getElementById('prev-page').addEventListener('click', onPrevPage);
+        document.getElementById('next-page').addEventListener('click', onNextPage);
+
+        // Загружаем PDF
+        pdfjsLib.getDocument('fragment-vniz.pdf').promise.then(function(pdfDoc_) {
+            pdfDoc = pdfDoc_;
+            renderPage(pageNum);
+        });
+    </script>
 </body>
 </html>
