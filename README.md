@@ -1,20 +1,26 @@
 # Официальный сайт Алана Крейна
 
-## Как обновить сайт
-1. Откройте папку с сайтом на компьютере.
-2. Внесите изменения в файлы (например, отредактируйте текст в `index.html` или `about.html`).
-3. Откройте командную строку (PowerShell) и перейдите в папку:
-   `cd C:\Users\pc\OneDrive\Desktop\alan-crane-site`
-4. Выполните три команды:
-   `git add .`
-   `git commit -m "Обновил текст"`
-   `git push`
-5. Подождите 1-2 минуты, сайт обновится автоматически.
+Личный авторский сайт писателя. Статический проект, размещённый на GitHub Pages.
 
-## Как заменить заглушки на реальные картинки
-1. Поместите файлы картинок в папку `images` (если её нет — создайте).
-   - Портрет: `portrait.jpg`
-   - Обложка 1: `cover-vniz.jpg`
-   - Обложка 2: `cover-fonari.jpg`
-2. Откройте `index.html` и найдите блоки `<div class="image-placeholder ...">...</div>`.
-3. Замените их на `<img src="images/portrait.jpg" alt="Портрет Алана Крейна">` и т.д.
+## 🔗 Ссылки
+- **Живой сайт:** [alancrane0810-world.github.io](https://alancrane0810-world.github.io/)
+- **Репозиторий:** [github.com/alancrane0810-world/alancrane0810-world.github.io](https://github.com/alancrane0810-world/alancrane0810-world.github.io)
+
+## 🛠 Технологии
+- HTML5
+- CSS3 (адаптивная вёрстка, тёмная тема)
+- Vanilla JavaScript (мобильное меню, перелистывание страниц)
+
+## 📂 Структура проекта
+- `index.html` — Главная страница
+- `books.html` — Каталог книг
+- `book-vniz.html` — Страница книги «Вниз по рельсам»
+- `book-fonari.html` — Страница книги «Пока горят фонари»
+- `about.html` — Об авторе
+- `projects.html` — Проекты
+- `airanor.html` — Страница проекта «Айранор»
+- `contacts.html` — Контакты
+- `css/` — Стили
+- `js/` — Скрипты
+- `images/` — Изображения
+- `videos/` — Видео-промо
